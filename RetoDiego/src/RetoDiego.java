@@ -4,6 +4,8 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RetoDiego {
 
@@ -13,10 +15,16 @@ public class RetoDiego {
 	
 	public static void main(String[] args) {
 
-		for(int i = 0; i < 20; i++){
+		List<String> respuestas = new ArrayList<String>();
+		List<String> respuestasAscii = new ArrayList<String>();
+		List<List<String>> listasAscii = new ArrayList<List<String>>();
+		
+		for(int i = 0; i < 10; i++){
 			// Recogemos los datos de la pagina
 			URL url;
 			String contenido = "";
+			
+			List<String> listaAscii = new ArrayList<String>();
 			
 			try {
 				url = new URL(URI);
@@ -36,11 +44,39 @@ public class RetoDiego {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			respuestas.add(contenido);
+			String[] cortado = contenido.split("\\?");
+			String completo = "";
+			for(String pieza : cortado){
+				completo = completo + pieza;
+			}
 
-			System.out.println(contenido);
-			
+			System.out.println(completo);
+			cortado = completo.split(" ");
+			String palabra = "";
+			for(String pieza : cortado){
+				listaAscii.add(pieza);
+				palabra += binToString(pieza);
+			}
+
+			respuestasAscii.add(palabra);
+		}
+		
+		System.out.println();
+		for(String respuesta : respuestas){
+			System.out.println(respuesta);
+		}
+		
+		System.out.println();
+		for(String respuesta : respuestasAscii){
+			System.out.println(respuesta);
 		}
 		
 	}
-
+	
+    private static String binToString(String binary) {
+    	
+    	int charCode = Integer.parseInt(binary, 2);
+    	return new Character((char)charCode).toString();
+    }
 }
